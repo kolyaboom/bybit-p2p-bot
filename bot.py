@@ -33,9 +33,14 @@ async def fetch_p2p_data():
     }
 
     async with httpx.AsyncClient() as client:
-        response = await client.post(url, json=payload)
+        try:
+            response = await client.post(url, json=payload, timeout=10.0)
+            data = response.json()
+            return data.get("result", {}).get("items", [])
+        except Exception as e:
+            print(f"❌ Ошибка при получении данных с Bybit: {e}")
+            return []
         data = response.json()
-        return data.get("result", {}).get("items", [])
 
 @dp.callback_query()
 async def handle_callback(callback: types.CallbackQuery):
