@@ -1,7 +1,5 @@
 services:
   - type: web
     name: bybit-p2p-bot
-    env: python
-    buildCommand: ""
-    startCommand: "python bot.py"
+    env: docker
     plan: free
